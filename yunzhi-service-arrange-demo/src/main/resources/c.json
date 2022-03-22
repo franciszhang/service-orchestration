@@ -1,0 +1,36 @@
+{
+  "tasks": [
+    {
+      "url": "com.come2future.user.standard.api.org.service.OrgFacade:1.0.0.test:org",
+      "alias": "d1",
+      "taskType": "hsf",
+      "method": "getByOrgIds",
+      "timeout": 3000,
+      "inputs": {
+        "orgIds": "#orgIds"
+      },
+      "inputsExtra": {
+        "orgIds": "java.util.Collection"
+      }
+    },
+    {
+      "url": "com.c2f.rbac.client.AppBaseInfoApi:1.0.0.test:rbac",
+      "alias": "d2",
+      "taskType": "hsf",
+      "method": "getAppBaseInfoList",
+      "timeout": 3000,
+      "inputs": {
+        "orgId": "$d1.data[0].orgId"
+      },
+      "inputsExtra": {
+        "orgId": "java.lang.String"
+      }
+    }
+  ],
+  "name": "test",
+  "description": "test",
+  "outputs": {
+    "org": "$d1.data",
+    "app": "$d2.result.appBaseInfoList[*]"
+  }
+}
