@@ -8,23 +8,26 @@ import com.taobao.hsf.remoting.service.GenericService;
 import com.taobao.hsf.util.PojoUtils;
 import com.yunzhi.xiaoyuanhao.service.arrange.engine.executor.Executor;
 import com.yunzhi.xiaoyuanhao.service.arrange.engine.pojo.Task;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author francis
  * @version 2022-03-22
  */
+@Slf4j
 @Service
 public class HsfExecutor implements Executor {
+    private static final Map<String, GenericService> genericServiceMap = new ConcurrentHashMap<>();
+
     @Override
     public String invoke(Task task) {
-        String[] split = task.getUrl().split(":");
-        GenericService gs = build(split[0], split[2], split[1], task.getTimeout());
         List<Object> inputs = new ArrayList<>(task.getInputs().values());
         Object[] params = new Object[inputs.size()];
         Map<String, String> inputsExtra = task.getInputsExtra();
@@ -44,12 +47,14 @@ public class HsfExecutor implements Executor {
                 }
             }
         }
+
+        GenericService gs = getGenericService(task.getUrl(), task.getTimeout());
         Object o;
         try {
             o = gs.$invoke(task.getMethod(), paramTypes, params);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("hsfExecutor执行异常!" + e.getMessage());
+            log.error("hsfExecutor执行异常!", e);
+            throw new RuntimeException(e);
         }
         //过滤掉class属性
         PropertyFilter filter = (source, name, value) -> !"class".equals(name);
@@ -62,7 +67,17 @@ public class HsfExecutor implements Executor {
         return HSF;
     }
 
-    public static Object checkBaseType(String type, Object value) {
+    private GenericService getGenericService(String url, int timeout) {
+        GenericService gs = genericServiceMap.get(url);
+        if (gs == null) {
+            String[] split = url.split(":");
+            gs = build(split[0], split[1], split[2], timeout);
+            genericServiceMap.put(url, gs);
+        }
+        return gs;
+    }
+
+    private static Object checkBaseType(String type, Object value) {
         if (byte.class.getName().equals(type) || Byte.class.getName().equals(type)) {
             return Byte.valueOf(value.toString());
         } else if (int.class.getName().equals(type) || Integer.class.getName().equals(type)) {

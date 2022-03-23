@@ -1,7 +1,7 @@
 {
   "tasks": [
     {
-      "url": "com.c2f.rbac.client.AppBaseInfoApi:1.0.0.test:rbac",
+      "url": "com.c2f.rbac.client.AppBaseInfoApi:rbac:1.0.0.test",
       "alias": "d1",
       "taskType": "hsf",
       "method": "getAppBaseInfoList",
@@ -14,7 +14,7 @@
       }
     },
     {
-      "url": "com.c2f.rbac.client.AppBaseInfoFacade:1.0.0.test:rbac",
+      "url": "com.c2f.rbac.client.AppBaseInfoFacade:rbac:1.0.0.test",
       "alias": "d2",
       "taskType": "hsf",
       "method": "getAppBaseInfo",
