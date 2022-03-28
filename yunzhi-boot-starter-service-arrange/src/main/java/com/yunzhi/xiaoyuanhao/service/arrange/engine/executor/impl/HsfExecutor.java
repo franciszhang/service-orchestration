@@ -24,6 +24,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Service
 public class HsfExecutor implements Executor {
+    public static final String CLASS_STR = "class";
+    public static final String COLON_STR = ":";
+
     private static final Map<String, GenericService> genericServiceMap = new ConcurrentHashMap<>();
 
     @Override
@@ -42,7 +45,7 @@ public class HsfExecutor implements Executor {
                     params[i] = object;
                 } else {
                     Map map = (Map) PojoUtils.generalize(inputs.get(i));
-                    map.put("class", paramType);
+                    map.put(CLASS_STR, paramType);
                     params[i] = map;
                 }
             }
@@ -57,7 +60,7 @@ public class HsfExecutor implements Executor {
             throw new RuntimeException(e);
         }
         //过滤掉class属性
-        PropertyFilter filter = (source, name, value) -> !"class".equals(name);
+        PropertyFilter filter = (source, name, value) -> !CLASS_STR.equals(name);
         return JSON.toJSONString(o, filter);
 
     }
@@ -70,7 +73,7 @@ public class HsfExecutor implements Executor {
     private GenericService getGenericService(String url, int timeout) {
         GenericService gs = genericServiceMap.get(url);
         if (gs == null) {
-            String[] split = url.split(":");
+            String[] split = url.split(COLON_STR);
             gs = build(split[0], split[1], split[2], timeout);
             genericServiceMap.put(url, gs);
         }

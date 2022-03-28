@@ -16,11 +16,16 @@ import java.util.Map;
  * @version 2022-03-22
  */
 public class DataProcessor {
+    private static final String INPUT_PATH = "$.tasks[*].inputs";
+    private static final String OUTPUT_PATH = "$.outputs";
+    private static final String $_STR = "$";
+    private static final String EMPTY_STR = "";
+    private static final String DOT_REGEX_STR = "\\.";
 
     public static Map<String, List<String>> getDest2expression(String dsl) {
         List<String> expressionList = new ArrayList<>();
-        JSONArray jsonArray = (JSONArray) JSONPath.read(dsl, "$.tasks[*].inputs");
-        jsonArray.add(JSONPath.read(dsl, "$.outputs"));
+        JSONArray jsonArray = (JSONArray) JSONPath.read(dsl, INPUT_PATH);
+        jsonArray.add(JSONPath.read(dsl, OUTPUT_PATH));
         for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             recursiveGetExp(jsonObject, expressionList);
@@ -28,8 +33,8 @@ public class DataProcessor {
 
         Map<String, List<String>> alias2expMap = new HashMap<>();
         for (String s : expressionList) {
-            String[] split = s.split("\\.");
-            String alias = split[0].replace("$", "");
+            String[] split = s.split(DOT_REGEX_STR);
+            String alias = split[0].replace($_STR, EMPTY_STR);
             if (alias2expMap.containsKey(alias)) {
                 alias2expMap.get(alias).add(s);
             } else {
@@ -43,8 +48,8 @@ public class DataProcessor {
 
     public static void setExpressionVal(List<String> expressions, String resultJson, DslData dsl) {
         for (String expression : expressions) {
-            String[] split = expression.split("\\.");
-            String executorExp = expression.replace(split[0], "$");
+            String[] split = expression.split(DOT_REGEX_STR);
+            String executorExp = expression.replace(split[0], $_STR);
             Object read = JSONPath.read(resultJson, executorExp);
             if (read == null) {
                 continue;
@@ -72,7 +77,7 @@ public class DataProcessor {
     private static void recursiveGetExp(JSONObject jsonObject, List<String> expressionList) {
         for (String s : jsonObject.keySet()) {
             Object o = jsonObject.get(s);
-            if (o instanceof String && o.toString().startsWith("$")) {
+            if (o instanceof String && o.toString().startsWith($_STR)) {
                 expressionList.add(o.toString());
             }
             if (o instanceof JSONObject) {

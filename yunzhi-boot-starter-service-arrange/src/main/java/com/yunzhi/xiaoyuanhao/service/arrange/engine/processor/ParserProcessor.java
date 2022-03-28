@@ -17,6 +17,7 @@ import java.util.Map;
  * @version 2022-03-22
  */
 public class ParserProcessor {
+    public static final String SYMBOL = "#";
 
     public static DslData parser(String dslJsonStr, String params) {
         DslData dsl = JSONObject.parseObject(dslJsonStr, DslData.class, Feature.OrderedField);
@@ -31,7 +32,7 @@ public class ParserProcessor {
             Map<String, Object> inputs = task.getInputs();
             for (String s : inputs.keySet()) {
                 Object sVal = inputs.get(s);
-                if (sVal.toString().contains("#")) {
+                if (sVal.toString().contains(SYMBOL)) {
                     Object realVal = parser.parseExpression(sVal.toString()).getValue(context, Object.class);
                     inputs.put(s, realVal);
                 }
