@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.yunzhi.xiaoyuanhao</groupId>
     <artifactId>yunzhi-boot-starter-service-arrange</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0-RELEASE</version>
     <name>yunzhi-boot-starter-service-arrange</name>
     <description>yunzhi-boot-starter-service-arrange</description>
     <properties>

@@ -38,7 +38,7 @@
         <dependency>
             <groupId>com.yunzhi.xiaoyuanhao</groupId>
             <artifactId>yunzhi-boot-starter-service-arrange</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0-RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
