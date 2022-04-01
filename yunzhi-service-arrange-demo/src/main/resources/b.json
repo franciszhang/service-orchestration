@@ -7,7 +7,7 @@
       "method": "getAppBaseInfoList",
       "timeout": 3000,
       "inputs": {
-        "orgId": "#orgId"
+        "orgId": "${#orgId}"
       },
       "inputsExtra": {
         "name": "java.lang.String"

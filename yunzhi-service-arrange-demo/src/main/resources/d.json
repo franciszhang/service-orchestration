@@ -7,7 +7,7 @@
       "method": "getByOrgIds",
       "timeout": 3000,
       "inputs": {
-        "orgIds": "#orgIds"
+        "orgIds": "${#orgIds}"
       },
       "inputsExtra": {
         "orgIds": "java.util.Collection"

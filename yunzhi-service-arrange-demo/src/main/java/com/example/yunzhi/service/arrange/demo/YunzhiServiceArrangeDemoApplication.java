@@ -62,12 +62,38 @@ public class YunzhiServiceArrangeDemoApplication {
         System.out.println(JSON.toJSONString(process));
         return process;
     }
+
     @RequestMapping("/test3")
     public Object test3() throws Exception {
         String path = Objects.requireNonNull(YunzhiServiceArrangeDemoApplication.class.getClassLoader().getResource("d.json")).getPath();
         File file = new File(path);
         String jsonStr = FileUtils.readFileToString(file);
         String param = "{\"orgIds\":[\"440101-S000011\"]}";
+
+        Map<String, Object> process = serviceArrangeService.process(jsonStr, param);
+        System.out.println(JSON.toJSONString(process));
+        return process;
+    }
+
+    @RequestMapping("/test4")
+    public Object test4() throws Exception {
+        String path = Objects.requireNonNull(YunzhiServiceArrangeDemoApplication.class.getClassLoader().getResource("e.json")).getPath();
+        File file = new File(path);
+        String jsonStr = FileUtils.readFileToString(file);
+        String param = "{\"deptId\":\"228891204B02461B875CEE137E0EFF8B\",\"orgId\":\"440101-S000011\"}";
+
+        Map<String, Object> process = serviceArrangeService.process(jsonStr, param);
+        System.out.println(JSON.toJSONString(process));
+        return process;
+    }
+
+    @RequestMapping("/test5")
+    public Object test5() throws Exception {
+        String path = Objects.requireNonNull(YunzhiServiceArrangeDemoApplication.class.getClassLoader().getResource("f.json")).getPath();
+        File file = new File(path);
+        String jsonStr = FileUtils.readFileToString(file);
+//        String param = "{\"deptId\":[\"228891204B02461B875CEE137E0EFF8B\"],\"workContext\":{\"orgId\":\"440101-S000011\"}}";
+        String param = "{\"deptId\":\"228891204B02461B875CEE137E0EFF8B\",\"orgId\":\"440101-S000011\"}";
 
         Map<String, Object> process = serviceArrangeService.process(jsonStr, param);
         System.out.println(JSON.toJSONString(process));

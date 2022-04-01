@@ -7,8 +7,8 @@
       "method": "findParentOrgByOrgId",
       "timeout": 3000,
       "inputs": {
-        "orgId": "#orgId",
-        "isFetchParent": "#isFetchParent"
+        "orgId": "${#orgId}",
+        "isFetchParent": "${#isFetchParent}"
       },
       "inputsExtra": {
         "orgId": "java.lang.String",

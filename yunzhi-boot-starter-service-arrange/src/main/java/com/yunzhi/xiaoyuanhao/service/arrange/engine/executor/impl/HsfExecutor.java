@@ -2,6 +2,7 @@ package com.yunzhi.xiaoyuanhao.service.arrange.engine.executor.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.PropertyFilter;
 import com.taobao.hsf.app.spring.util.HSFSpringConsumerBean;
 import com.taobao.hsf.remoting.service.GenericService;
@@ -37,14 +38,18 @@ public class HsfExecutor implements Executor {
         String[] paramTypes = inputsExtra.values().toArray(new String[0]);
         for (int i = 0; i < paramTypes.length; i++) {
             String paramType = paramTypes[i];
-            if (inputs.get(i).getClass().getName().equals(paramType)) {
+            Object o = inputs.get(i);
+            if (o.getClass().getName().equals(paramType)) {
                 params[i] = inputs.get(i);
             } else {
-                Object object = checkBaseType(paramType, inputs.get(i));
+                Object object = checkBaseType(paramType, o);
                 if (object != null) {
                     params[i] = object;
                 } else {
-                    Map map = (Map) PojoUtils.generalize(inputs.get(i));
+                    if (o.getClass().getName().equals(String.class.getName())) {
+                        o = JSON.parseObject(o.toString());
+                    }
+                    Map map = (Map) PojoUtils.generalize(o);
                     map.put(CLASS_STR, paramType);
                     params[i] = map;
                 }
@@ -96,6 +101,9 @@ public class HsfExecutor implements Executor {
         } else if (short.class.getName().equals(type) || Short.class.getName().equals(type)) {
             return Short.valueOf(value.toString());
         } else if (type.equals(List.class.getName()) || type.equals(Collection.class.getName())) {
+            if (value.getClass().getName().equals(String.class.getName())) {
+                return JSONObject.parseArray(value.toString()).toJavaObject(ArrayList.class);
+            }
             return ((JSONArray) value).toJavaObject(ArrayList.class);
         }
         return null;

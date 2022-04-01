@@ -1,0 +1,24 @@
+{
+  "tasks": [
+    {
+      "url": "com.yunzhi.usercenter.api.user.facade.ReadDeptUserFacade:user-center:1.0.0",
+      "alias": "d1",
+      "taskType": "hsf",
+      "method": "findByOrgIdAndDeptIdInOfLimit",
+      "timeout": 3000,
+      "inputs": {
+        "workContext": "{\"orgId\":\"${#orgId}\"}",
+        "deptIds": "[\"$  {#deptId}\"]"
+      },
+      "inputsExtra": {
+        "workContext": "com.yunzhi.usercenter.api.common.pojo.dto.WorkContext",
+        "deptIds": "java.util.Collection"
+      }
+    }
+  ],
+  "name": "getDeptUser",
+  "description": "getDeptUser",
+  "outputs": {
+    "deptUser": "$d1.data"
+  }
+}
