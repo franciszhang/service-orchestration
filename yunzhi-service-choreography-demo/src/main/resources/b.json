@@ -1,0 +1,24 @@
+{
+  "tasks": [
+    {
+      "url": "com.yunzhi.usercenter.api.user.facade.ReadDeptSubjectUserFacade:user-center:1.0.0",
+      "alias": "d1",
+      "taskType": "hsf",
+      "method": "findByOrgIdAndUserId",
+      "timeout": 3000,
+      "inputs": {
+        "workContext": "{\"orgId\":\"${#org_id}\"}",
+        "userId": "${#user_id}"
+      },
+      "inputsExtra": {
+        "workContext": "com.yunzhi.usercenter.api.common.pojo.dto.WorkContext",
+        "userId":"java.lang.String"
+      }
+    }
+  ],
+  "name": "获取教师任教课目",
+  "description": "获取教师任教课目",
+  "outputs": {
+    "subject": "$d1.data"
+  }
+}
