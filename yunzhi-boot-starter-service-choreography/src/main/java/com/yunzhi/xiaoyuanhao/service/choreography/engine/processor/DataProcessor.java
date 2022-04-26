@@ -47,6 +47,9 @@ public class DataProcessor {
     }
 
     public static void setExpressionVal(List<String> expressions, String resultJson, DslData dsl) {
+        if (expressions == null) {
+            return;
+        }
         for (String expression : expressions) {
             String[] split = expression.split(DOT_REGEX_STR);
             String executorExp = expression.replace(split[0], $_STR);
