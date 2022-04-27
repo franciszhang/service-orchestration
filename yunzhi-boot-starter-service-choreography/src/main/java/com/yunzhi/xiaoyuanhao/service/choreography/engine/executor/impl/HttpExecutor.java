@@ -27,7 +27,6 @@ import static org.apache.http.protocol.HTTP.CONTENT_TYPE;
 @Component
 public class HttpExecutor implements Executor {
     private static final CloseableHttpClient httpClient = HttpClients.createDefault();
-    ;
 
     @Override
     public String invoke(Task task) {

@@ -15,4 +15,5 @@ public interface Executor {
     String HSF = "hsf";
     String HTTP = "http";
     String DUBBO = "dubbo";
+    String BEAN = "bean";
 }
