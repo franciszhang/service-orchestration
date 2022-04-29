@@ -1,38 +1,28 @@
 {
-  "tasks": [
+  "tasks":
+  [
     {
-      "url": "com.come2future.user.standard.api.org.service.OrgFacade:org:1.0.0.test",
+      "url": "http://test.bsjiot.com:9030/core/api/v1/open/zf211/getIdCardByImei",
       "alias": "d1",
-      "taskType": "hsf",
-      "method": "findParentOrgByOrgId",
+      "taskType": "http",
+      "method": "post",
       "timeout": 3000,
-      "inputs": {
-        "orgId": "${#orgId}",
-        "isFetchParent": "${#isFetchParent}"
+      "inputs":
+      {
+        "imei": "${#imei}"
       },
-      "inputsExtra": {
-        "orgId": "java.lang.String",
-        "isFetchParent": "boolean"
-      }
-    },
-    {
-      "url": "com.c2f.rbac.client.AppBaseInfoApi:rbac:1.0.0.test",
-      "alias": "d2",
-      "taskType": "hsf",
-      "method": "getAppBaseInfoList",
-      "timeout": 3000,
-      "inputs": {
-        "orgId": "$d1.data[0]"
-      },
-      "inputsExtra": {
-        "orgId": "java.lang.String"
+      "inputsExtra":
+      {
+        "imei": "java.lang.String"
       }
     }
   ],
-  "name": "test",
-  "description": "test",
-  "outputs": {
-    "orgId": "$d1.data[0]",
-    "app": "$d2.result.appBaseInfoList[*]"
+  "name": "(博实结)根据imei获取idNo",
+  "description": "(博实结)根据imei获取idNo",
+  "outputs":
+  {
+    "msg": "$d1.msg",
+    "obj": "$d1.obj",
+    "flag": "$d1.flag"
   }
 }

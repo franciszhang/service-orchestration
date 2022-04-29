@@ -1,5 +1,6 @@
 package com.yunzhi.xiaoyuanhao.service.choreography.engine.pojo;
 
+import com.alibaba.fastjson.JSON;
 import lombok.Data;
 
 import java.util.List;
@@ -15,6 +16,11 @@ public class DslData {
     private String name;
     private String description;
     private Map<String, Object> outputs;
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
 
 }
 

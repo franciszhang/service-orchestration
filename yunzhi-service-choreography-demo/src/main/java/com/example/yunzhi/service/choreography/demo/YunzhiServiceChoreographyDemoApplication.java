@@ -45,7 +45,8 @@ public class YunzhiServiceChoreographyDemoApplication {
         String path = Objects.requireNonNull(YunzhiServiceChoreographyDemoApplication.class.getClassLoader().getResource("a.json")).getPath();
         File file = new File(path);
         String jsonStr = FileUtils.readFileToString(file);
-        String param = "{\"orgId\":\"440101-S000011\",\"isFetchParent\":false}";
+//        String param = "{\"org_id\":\"330108-S000189\",\"dept_id\":\"f2c2521762254d7dbdbc4d908430163e\",\"clientId\":\"c4afe29340cb435a921977bb9fc918be\",\"clientSecret\":\"230106df961c448cae53b25021e34e8b\"}";
+        String param = "{\"imei\":\"845128451284511\"}";
 
         Map<String, Object> process = serviceChoreographyFacade.process(jsonStr, param);
         System.out.println(JSON.toJSONString(process));
@@ -81,7 +82,7 @@ public class YunzhiServiceChoreographyDemoApplication {
         String path = Objects.requireNonNull(YunzhiServiceChoreographyDemoApplication.class.getClassLoader().getResource("e.json")).getPath();
         File file = new File(path);
         String jsonStr = FileUtils.readFileToString(file);
-        String param = "{\"deptId\":\"228891204B02461B875CEE137E0EFF8B\",\"orgId\":\"440101-S000011\"}";
+        String param = "{\"user_id\":\"769fe83321c34145bccc280be4aa59cd\",\"org_id\":\"440101-S000011\"}";
 
         Map<String, Object> process = serviceChoreographyFacade.process(jsonStr, param);
         System.out.println(JSON.toJSONString(process));
@@ -94,7 +95,7 @@ public class YunzhiServiceChoreographyDemoApplication {
         File file = new File(path);
         String jsonStr = FileUtils.readFileToString(file);
 //        String param = "{\"deptId\":[\"228891204B02461B875CEE137E0EFF8B\"],\"workContext\":{\"orgId\":\"440101-S000011\"}}";
-        String param = "{\"userId\":\"769fe83321c34145bccc280be4aa59cd\",\"orgId\":\"440101-S000011\"}";
+        String param = "{\"dept_id\":\"228891204B02461B875CEE137E0EFF8B\",\"org_id\":\"440101-S000011\"}";
 
         Map<String, Object> process = serviceChoreographyFacade.process(jsonStr, param);
         System.out.println(JSON.toJSONString(process));

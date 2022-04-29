@@ -1,6 +1,7 @@
 package com.yunzhi.xiaoyuanhao.service.choreography.facade.impl;
 
 import com.yunzhi.xiaoyuanhao.service.choreography.engine.executor.ExecutorFactory;
+import com.yunzhi.xiaoyuanhao.service.choreography.engine.pojo.Expression;
 import com.yunzhi.xiaoyuanhao.service.choreography.engine.processor.ParserProcessor;
 import com.yunzhi.xiaoyuanhao.service.choreography.engine.pojo.DslData;
 import com.yunzhi.xiaoyuanhao.service.choreography.engine.pojo.Task;
@@ -24,22 +25,26 @@ public class ServiceChoreographyFacadeImpl implements ServiceChoreographyFacade 
     @Override
     public Map<String, Object> process(String dslJsonStr, String paramJsonStr) {
         DslData dsl = ParserProcessor.parser(dslJsonStr, paramJsonStr);
-        Map<String, List<String>> dest2expMap = DataProcessor.getDest2expression(dslJsonStr);
+        List<Expression> expressions = DataProcessor.getExpressions(dsl);
 
         long l = System.currentTimeMillis();
-        Map<String, Object> resultMap = syncProcess(dsl, dest2expMap);
+        Map<String, Object> resultMap = syncProcess(dsl, expressions);
         long l1 = System.currentTimeMillis();
 
         log.info("serviceChoreography-cost[{}]ms", (l1 - l));
         return resultMap;
     }
 
-    private Map<String, Object> syncProcess(DslData dsl, Map<String, List<String>> dest2expMap) {
+    private Map<String, Object> syncProcess(DslData dsl, List<Expression> expressions) {
         for (Task task : dsl.getTasks()) {
+            DataProcessor.setDslInputVal(dsl, expressions);
+
             String result = ExecutorFactory.getExecutor(task.getTaskType()).invoke(task);
-            List<String> exps = dest2expMap.get(task.getAlias());
-            DataProcessor.setExpressionVal(exps, result, dsl);
+
+            DataProcessor.setExpressionVal(expressions, result);
         }
+
+        DataProcessor.setDslOutputVal(dsl, expressions);
         return dsl.getOutputs();
     }
 }
