@@ -47,12 +47,25 @@ public class ParserProcessor {
         List<Task> tasks = dsl.getTasks();
         for (Task task : tasks) {
             Map<String, Object> inputs = task.getInputs();
-            for (String s : inputs.keySet()) {
-                Object sVal = inputs.get(s);
-                if (sVal.toString().contains(expressionPrefix)) {
-                    Object realVal = parser.parseExpression(sVal.toString(), context).getValue(evaluationContext, Object.class);
-                    inputs.put(s, realVal);
+            for (Map.Entry<String, Object> entry : inputs.entrySet()) {
+                Object sVal = entry.getValue();
+                if (sVal instanceof String && sVal.toString().contains(expressionPrefix)) {
+                    entry.setValue(parser.parseExpression(sVal.toString(), context).getValue(evaluationContext, Object.class));
+                } else if (sVal instanceof JSONObject) {
+                    for (Map.Entry<String, Object> stringObjectEntry : ((JSONObject) sVal).entrySet()) {
+                        Object value = stringObjectEntry.getValue();
+                        if (value instanceof String && value.toString().contains(expressionPrefix)) {
+                            stringObjectEntry.setValue(parser.parseExpression(value.toString(), context).getValue(evaluationContext, Object.class));
+                        }
+                    }
                 }
+            }
+        }
+        Map<String, Object> outputs = dsl.getOutputs();
+        for (Map.Entry<String, Object> entry : outputs.entrySet()) {
+            Object value = entry.getValue();
+            if (value.toString().contains(expressionPrefix)) {
+                entry.setValue(parser.parseExpression(value.toString(), context).getValue(evaluationContext, Object.class));
             }
         }
         return dsl;

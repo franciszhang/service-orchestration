@@ -1,24 +1,43 @@
 {
-  "tasks": [
+  "tasks":
+  [
     {
-      "url": "com.yunzhi.usercenter.api.user.facade.ReadDeptSubjectUserFacade:user-center:1.0.0",
+      "url": "com.nbugs.xiaoyuanhao.weixin.work.base.core.hsf.PubaccountRemoteService:base:1.0.0",
       "alias": "d1",
       "taskType": "hsf",
-      "method": "findByOrgIdAndUserId",
+      "method": "getCorpIdByOrgId",
       "timeout": 3000,
-      "inputs": {
-        "workContext": "{\"orgId\":\"${#org_id}\"}",
-        "userId": "${#user_id}"
+      "inputs":
+      {
+        "orgId": "${#orgId}"
       },
-      "inputsExtra": {
-        "workContext": "com.yunzhi.usercenter.api.common.pojo.dto.WorkContext",
-        "userId":"java.lang.String"
+      "inputsExtra":
+      {
+        "orgId": "java.lang.String"
+      }
+    },
+    {
+      "url": "com.nbugs.xiaoyuanhao.weixin.work.base.core.hsf.PubaccountRemoteService:base:1.0.0",
+      "alias": "d2",
+      "taskType": "hsf",
+      "method": "getSignature",
+      "timeout": 3000,
+      "inputs":
+      {
+        "signatureRequest": {"nonceStr":"${#nonceStr}","timestamp":"${#timestamp}","url":"${#url}","corpId":"$d1.result","suitId":"${#suitId}","agentId":"${#agentId}"}
+      },
+      "inputsExtra":
+      {
+        "signatureRequest": "com.nbugs.xiaoyuanhao.weixin.work.base.core.model.resquest.SignatureRequest"
       }
     }
   ],
-  "name": "获取教师任教课目",
-  "description": "获取教师任教课目",
-  "outputs": {
-    "subject": "$d1.data"
+  "name": "获取js签名",
+  "description": "获取js签名",
+  "outputs":
+  {
+    "result": "$d2",
+    "request": "${#orgId}",
+    "request1": "${#orgId1}"
   }
 }

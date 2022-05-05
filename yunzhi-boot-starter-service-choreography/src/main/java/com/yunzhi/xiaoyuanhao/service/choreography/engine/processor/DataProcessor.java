@@ -27,7 +27,7 @@ public class DataProcessor {
         jsonArray.add(JSONPath.read(dslStr, OUTPUT_PATH));
         for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
-            recursiveGetExp(jsonObject, expressionList);
+            recursiveGetExpression(jsonObject, expressionList);
         }
 
         List<Expression> list = new ArrayList<>();
@@ -40,11 +40,14 @@ public class DataProcessor {
         return list;
     }
 
-    public static void setExpressionVal(List<Expression> expressions, String resultJson) {
+    public static void setExpressionVal(List<Expression> expressions, String alias, String resultJson) {
         if (expressions == null) {
             return;
         }
         for (Expression expression : expressions) {
+            if (!alias.equals(expression.getAlias()) || expression.getExpressionValue() != null) {
+                continue;
+            }
             String executorExp = expression.getRealExpression();
             Object read = JSONPath.read(resultJson, executorExp);
             if (read == null) {
@@ -54,51 +57,50 @@ public class DataProcessor {
         }
     }
 
-    public static void setDslInputVal(DslData dsl, Collection<Expression> expressions) {
-        for (Task task : dsl.getTasks()) {
-            for (Expression expression : expressions) {
-                recursiveSetExpVal(task.getInputs(), expression);
-            }
+    public static void setDslInputVal(Task task, Collection<Expression> expressions) {
+        for (Expression expression : expressions) {
+            recursiveSetExpressionVal(task.getInputs(), expression);
         }
-
     }
 
     public static void setDslOutputVal(DslData dsl, Collection<Expression> expressions) {
         for (Expression expression : expressions) {
-            recursiveSetExpVal(dsl.getOutputs(), expression);
+            recursiveSetExpressionVal(dsl.getOutputs(), expression);
         }
     }
 
-    private static void recursiveSetExpVal(Map<String, Object> map, Expression exp) {
+    private static void recursiveSetExpressionVal(Map<String, Object> map, Expression exp) {
         if (exp.getExpressionValue() == null) {
             return;
         }
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             Object value = entry.getValue();
-            if (value.equals(exp.getOriginExpression())) {
-                entry.setValue(exp.getExpressionValue());
-            }
-            if (value instanceof Map) {
-                recursiveSetExpVal((Map) value, exp);
+            if (value instanceof String) {
+                String valStr = value.toString();
+                if (valStr.equals(exp.getOriginExpression())) {
+                    entry.setValue(exp.getExpressionValue());
+                } else if (valStr.contains(exp.getOriginExpression())) {
+                    entry.setValue(valStr.replace(exp.getOriginExpression(), exp.getExpressionValue().toString()));
+                }
+            } else if (value instanceof Map) {
+                recursiveSetExpressionVal((Map) value, exp);
             }
         }
     }
 
-    private static void recursiveGetExp(JSONObject jsonObject, List<String> expressionList) {
+    private static void recursiveGetExpression(JSONObject jsonObject, List<String> expressionList) {
         for (String s : jsonObject.keySet()) {
             Object o = jsonObject.get(s);
             if (o == null) {
                 continue;
             }
-            String objStr = o.toString();
-            if (o instanceof String && objStr.startsWith($_STR)) {
-                if (expressionList.contains(objStr)) {
+            if (o instanceof String && ((String) o).startsWith($_STR)) {
+                if (expressionList.contains(o)) {
                     continue;
                 }
-                expressionList.add(objStr);
-            }
-            if (o instanceof JSONObject) {
-                recursiveGetExp((JSONObject) o, expressionList);
+                expressionList.add(o.toString());
+            } else if (o instanceof JSONObject) {
+                recursiveGetExpression((JSONObject) o, expressionList);
             }
         }
 

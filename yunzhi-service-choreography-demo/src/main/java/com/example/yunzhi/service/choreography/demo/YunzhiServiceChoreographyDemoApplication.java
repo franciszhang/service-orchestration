@@ -10,7 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -28,14 +30,16 @@ public class YunzhiServiceChoreographyDemoApplication {
     private ServiceChoreographyFacade serviceChoreographyFacade;
 
     @RequestMapping("/test")
-    public Object test() throws Exception {
+    public Object test(HttpServletRequest request) throws Exception {
         String path = Objects.requireNonNull(YunzhiServiceChoreographyDemoApplication.class.getClassLoader().getResource("b.json")).getPath();
         File file = new File(path);
         String jsonStr = FileUtils.readFileToString(file);
-        String param = "{\"org_id\":\"440101-S000011\",\"user_id\":\"1B52BDB7FF2664D34AAC031B23BCC348B\"}";
+        HashMap<String, Object> map = new HashMap<>();
+        for (String s : request.getParameterMap().keySet()) {
+            map.put(s,request.getParameter(s));
+        }
 
-
-        Map<String, Object> process = serviceChoreographyFacade.process(jsonStr, param);
+        Map<String, Object> process = serviceChoreographyFacade.process(jsonStr, JSON.toJSONString(map));
         System.out.println(JSON.toJSONString(process));
         return process;
     }

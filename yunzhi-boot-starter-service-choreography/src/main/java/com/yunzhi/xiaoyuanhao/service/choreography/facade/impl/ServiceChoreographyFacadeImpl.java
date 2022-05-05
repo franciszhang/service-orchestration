@@ -37,11 +37,11 @@ public class ServiceChoreographyFacadeImpl implements ServiceChoreographyFacade 
 
     private Map<String, Object> syncProcess(DslData dsl, List<Expression> expressions) {
         for (Task task : dsl.getTasks()) {
-            DataProcessor.setDslInputVal(dsl, expressions);
+            DataProcessor.setDslInputVal(task, expressions);
 
             String result = ExecutorFactory.getExecutor(task.getTaskType()).invoke(task);
 
-            DataProcessor.setExpressionVal(expressions, result);
+            DataProcessor.setExpressionVal(expressions, task.getAlias(), result);
         }
 
         DataProcessor.setDslOutputVal(dsl, expressions);
