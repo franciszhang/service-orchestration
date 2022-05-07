@@ -36,7 +36,7 @@ public class YunzhiServiceChoreographyDemoApplication {
         String jsonStr = FileUtils.readFileToString(file);
         HashMap<String, Object> map = new HashMap<>();
         for (String s : request.getParameterMap().keySet()) {
-            map.put(s,request.getParameter(s));
+            map.put(s, request.getParameter(s));
         }
 
         Map<String, Object> process = serviceChoreographyFacade.process(jsonStr, JSON.toJSONString(map));
@@ -102,6 +102,21 @@ public class YunzhiServiceChoreographyDemoApplication {
         String param = "{\"dept_id\":\"228891204B02461B875CEE137E0EFF8B\",\"org_id\":\"440101-S000011\"}";
 
         Map<String, Object> process = serviceChoreographyFacade.process(jsonStr, param);
+        System.out.println(JSON.toJSONString(process));
+        return process;
+    }
+
+    @RequestMapping("/test0")
+    public Object test0(HttpServletRequest request) throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
+        for (String s : request.getParameterMap().keySet()) {
+            map.put(s, request.getParameter(s));
+        }
+
+        String path = Objects.requireNonNull(YunzhiServiceChoreographyDemoApplication.class.getClassLoader().getResource(map.get("file").toString())).getPath();
+        File file = new File(path);
+        String jsonStr = FileUtils.readFileToString(file);
+        Map<String, Object> process = serviceChoreographyFacade.process(jsonStr, JSON.toJSONString(map));
         System.out.println(JSON.toJSONString(process));
         return process;
     }

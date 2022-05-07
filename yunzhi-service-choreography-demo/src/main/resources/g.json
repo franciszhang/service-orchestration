@@ -1,0 +1,30 @@
+{
+  "tasks": [
+    {
+      "url": "com.yunzhi.usercenter.mapping.api.UserMappingApi::1.0",
+      "alias": "d1",
+      "taskType": "dubbo",
+      "method": "findByOrgIdAndUserIdInOfLimit",
+      "timeout": 3000,
+      "inputs": {
+        "request": {
+          "userIds": [
+            "${#user_id}"
+          ],
+          "userType": "TEACHER",
+          "mappingBusiness": "WX",
+          "orgId": "${#org_id}"
+        }
+      },
+      "inputsExtra": {
+        "request": "com.yunzhi.usercenter.mapping.api.condition.UserIdToOutUserIdCondition"
+      }
+    }
+  ],
+  "name": "获取企微信息",
+  "description": "获取企微信息",
+  "outputs": {
+    "corpId": "$d1.data[0].outOrgId",
+    "wxId": "$d1.data[0].outUserId"
+  }
+}

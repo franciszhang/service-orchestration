@@ -1,5 +1,6 @@
 package com.yunzhi.xiaoyuanhao.service.choreography.engine.processor;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import com.yunzhi.xiaoyuanhao.service.choreography.engine.pojo.DslData;
@@ -56,6 +57,15 @@ public class ParserProcessor {
                         Object value = stringObjectEntry.getValue();
                         if (value instanceof String && value.toString().contains(expressionPrefix)) {
                             stringObjectEntry.setValue(parser.parseExpression(value.toString(), context).getValue(evaluationContext, Object.class));
+                        } else if (value instanceof JSONArray && value.toString().contains(expressionPrefix)) {
+                            JSONArray arrayVal = (JSONArray) value;
+                            for (int i = 0; i < arrayVal.size(); i++) {
+                                Object o = arrayVal.get(i);
+                                if (o.toString().contains(expressionPrefix)) {
+                                    o = parser.parseExpression(o.toString(), context).getValue(evaluationContext, Object.class);
+                                }
+                                arrayVal.set(i, o);
+                            }
                         }
                     }
                 }
