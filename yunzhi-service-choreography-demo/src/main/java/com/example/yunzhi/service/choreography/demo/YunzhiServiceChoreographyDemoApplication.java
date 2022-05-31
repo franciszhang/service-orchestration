@@ -74,7 +74,7 @@ public class YunzhiServiceChoreographyDemoApplication {
         String path = Objects.requireNonNull(YunzhiServiceChoreographyDemoApplication.class.getClassLoader().getResource("d.json")).getPath();
         File file = new File(path);
         String jsonStr = FileUtils.readFileToString(file);
-        String param = "{\"orgIds\":[\"440101-S000011\"]}";
+        String param = "{\"media_ids\":[\"440101-S000011\"],\"org_id\":\"440101-S000011\"}";
 
         Map<String, Object> process = serviceChoreographyFacade.process(jsonStr, param);
         System.out.println(JSON.toJSONString(process));

@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.yunzhi.xiaoyuanhao</groupId>
     <artifactId>yunzhi-boot-starter-service-choreography</artifactId>
-    <version>1.0.0-RELEASE</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>yunzhi-boot-starter-service-choreography</name>
     <description>yunzhi-boot-starter-service-choreography</description>
     <properties>
