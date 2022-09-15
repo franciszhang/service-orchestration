@@ -1,5 +1,6 @@
 package com.yunzhi.xiaoyuanhao.service.choreography.facade.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.yunzhi.xiaoyuanhao.service.choreography.engine.executor.ExecutorFactory;
 import com.yunzhi.xiaoyuanhao.service.choreography.engine.pojo.Expression;
 import com.yunzhi.xiaoyuanhao.service.choreography.engine.processor.ParserProcessor;
@@ -77,7 +78,11 @@ public class ServiceChoreographyFacadeImpl implements ServiceChoreographyFacade 
 
     private void doProcessTask(Task task, List<Expression> expressions) {
         DataProcessor.setDslInputVal(task, expressions);
+        log.info("doProcessTask-request:[{}]", JSON.toJSONString(task));
+
         String result = ExecutorFactory.getExecutor(task.getTaskType()).invoke(task);
+        log.info("doProcessTask-response:[{}]", result);
+
         DataProcessor.setExpressionVal(expressions, task.getAlias(), result);
     }
 
