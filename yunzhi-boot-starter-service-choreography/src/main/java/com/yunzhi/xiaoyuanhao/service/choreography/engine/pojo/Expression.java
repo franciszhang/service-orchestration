@@ -24,6 +24,14 @@ public class Expression {
      * 表达式的结果值
      */
     private Object expressionValue;
+    /**
+     * 意外表达式
+     */
+    private String unexpectExpression;
+    /**
+     * 表达式意外结果值
+     */
+    private Object UnexpectExpressionValue;
 
     public Expression() {
 

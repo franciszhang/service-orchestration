@@ -19,6 +19,7 @@ public class DataProcessor {
     private static final String $_STR = "$";
     private static final String EMPTY_STR = "";
     private static final String DOT_REGEX_STR = "\\.";
+    private static final String COLON_STR = ":";
 
     public static List<Expression> getExpressions(DslData dsl) {
         String dslStr = dsl.toString();
@@ -31,13 +32,25 @@ public class DataProcessor {
         }
 
         List<Expression> list = new ArrayList<>();
-        for (String s : expressionList) {
-            String[] split = s.split(DOT_REGEX_STR);
-            String alias = split[0].replace($_STR, EMPTY_STR);
-            String realExpression = s.replace($_STR + alias, $_STR);
-            list.add(new Expression(s, realExpression, alias));
+        for (String e : expressionList) {
+            list.add(fillExpression(e));
         }
         return list;
+    }
+
+    private static Expression fillExpression(String e) {
+        String[] colonSplit = e.split(COLON_STR);
+        String expressionStr = colonSplit[0];
+        String unexpectExpressionStr = null;
+        if (colonSplit.length > 1) {
+            unexpectExpressionStr = colonSplit[1];
+        }
+        String[] split = expressionStr.split(DOT_REGEX_STR);
+        String alias = split[0].replace($_STR, EMPTY_STR);
+        String realExpressionStr = expressionStr.replace($_STR + alias, $_STR);
+        Expression expression = new Expression(expressionStr, realExpressionStr, alias);
+        expression.setUnexpectExpression(unexpectExpressionStr);
+        return expression;
     }
 
     public static void setExpressionVal(List<Expression> expressions, String alias, String resultJson) {
@@ -48,12 +61,15 @@ public class DataProcessor {
             if (!alias.equals(expression.getAlias()) || expression.getExpressionValue() != null) {
                 continue;
             }
-            String executorExp = expression.getRealExpression();
-            Object read = JSONPath.read(resultJson, executorExp);
-            if (read == null) {
-                continue;
-            }
+            Object read = JSONPath.read(resultJson, expression.getRealExpression());
             expression.setExpressionValue(read);
+            if (read == null && expression.getUnexpectExpression() != null) {
+                read = JSONPath.read(resultJson, expression.getUnexpectExpression());
+                if (read != null) {
+                    expression.setUnexpectExpressionValue(read);
+                    throw new RuntimeException(read.toString());
+                }
+            }
         }
     }
 

@@ -1,7 +1,6 @@
 package com.example.yunzhi.service.choreography.demo;
 
 import com.alibaba.fastjson.JSON;
-import com.taobao.pandora.boot.PandoraBootstrap;
 import com.yunzhi.xiaoyuanhao.service.choreography.facade.ServiceChoreographyFacade;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +20,7 @@ import java.util.Objects;
 public class YunzhiServiceChoreographyDemoApplication {
 
     public static void main(String[] args) {
-        PandoraBootstrap.run(args);
         SpringApplication.run(YunzhiServiceChoreographyDemoApplication.class, args);
-        PandoraBootstrap.markStartupAndWait();
     }
 
     @Autowired
@@ -62,7 +59,7 @@ public class YunzhiServiceChoreographyDemoApplication {
         String path = Objects.requireNonNull(YunzhiServiceChoreographyDemoApplication.class.getClassLoader().getResource("c.json")).getPath();
         File file = new File(path);
         String jsonStr = FileUtils.readFileToString(file);
-        String param = "{\"orgIds\":[\"440101-S000011\"]}";
+        String param = "{\"orgIds\":[\"440101-S0000111\"]}";
 
         Map<String, Object> process = serviceChoreographyFacade.process(jsonStr, param);
         System.out.println(JSON.toJSONString(process));

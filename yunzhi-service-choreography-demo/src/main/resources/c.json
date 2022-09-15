@@ -20,7 +20,7 @@
       "method": "getAppBaseInfoList",
       "timeout": 3000,
       "inputs": {
-        "orgId": "$d1.data[0].orgId"
+        "orgId": "$d1.data[0].orgId:$"
       },
       "inputsExtra": {
         "orgId": "java.lang.String"
