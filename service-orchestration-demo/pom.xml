@@ -11,8 +11,8 @@
     <groupId>com.frank.example</groupId>
     <artifactId>service-orchestration-demo</artifactId>
     <version>1.0.0</version>
-    <name>service-choreography-demo</name>
-    <description>service-choreography-demo</description>
+    <name>service-orchestration-demo</name>
+    <description>service-orchestration-demo</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>

@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.frank.service.orchestration.engine.executor.ExecutorFactory;
 import com.frank.service.orchestration.engine.processor.DataProcessor;
 import com.frank.service.orchestration.engine.processor.ParserProcessor;
-import com.frank.service.orchestration.facade.ServiceChoreographyFacade;
+import com.frank.service.orchestration.facade.ServiceOrchestrationFacade;
 import com.frank.service.orchestration.engine.pojo.Expression;
 import com.frank.service.orchestration.engine.pojo.DslData;
 import com.frank.service.orchestration.engine.pojo.Task;
@@ -24,11 +24,11 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class ServiceChoreographyFacadeImpl implements ServiceChoreographyFacade {
+public class ServiceOrchestrationFacadeImpl implements ServiceOrchestrationFacade {
     private final ThreadPoolExecutor executor = new ThreadPoolExecutor(20, 50, 1, TimeUnit.MINUTES,
             new LinkedBlockingDeque<>(1000),
-            new ThreadFactoryImpl("serviceChoreographyInvokePool"), (r, e) -> {
-        log.warn("attention! choreography pool is full");
+            new ThreadFactoryImpl("serviceOrchestrationInvokePool"), (r, e) -> {
+        log.warn("attention! orchestration pool is full");
         if (!e.isShutdown()) {
             r.run();
         }
@@ -43,7 +43,7 @@ public class ServiceChoreographyFacadeImpl implements ServiceChoreographyFacade 
         Map<String, Object> resultMap = doProcess(dsl, expressions);
         long l1 = System.currentTimeMillis();
 
-        log.info("serviceChoreography-cost[{}]ms", (l1 - l));
+        log.info("service-orchestration-cost[{}]ms", (l1 - l));
         return resultMap;
     }
 

@@ -1,7 +1,7 @@
 package com.frank.service.orchestration.demo;
 
 import com.alibaba.fastjson.JSON;
-import com.frank.service.orchestration.facade.ServiceChoreographyFacade;
+import com.frank.service.orchestration.facade.ServiceOrchestrationFacade;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -24,7 +24,7 @@ public class ServiceOrchestrationDemoApplication {
     }
 
     @Autowired
-    private ServiceChoreographyFacade serviceChoreographyFacade;
+    private ServiceOrchestrationFacade serviceOrchestrationFacade;
 
     @RequestMapping("/test")
     public Object test(HttpServletRequest request) throws Exception {
@@ -36,7 +36,7 @@ public class ServiceOrchestrationDemoApplication {
             map.put(s, request.getParameter(s));
         }
 
-        Map<String, Object> process = serviceChoreographyFacade.process(jsonStr, JSON.toJSONString(map));
+        Map<String, Object> process = serviceOrchestrationFacade.process(jsonStr, JSON.toJSONString(map));
         System.out.println(JSON.toJSONString(process));
         return process;
     }
@@ -49,7 +49,7 @@ public class ServiceOrchestrationDemoApplication {
 //        String param = "{\"org_id\":\"330108-S000189\",\"dept_id\":\"f2c2521762254d7dbdbc4d908430163e\",\"clientId\":\"c4afe29340cb435a921977bb9fc918be\",\"clientSecret\":\"230106df961c448cae53b25021e34e8b\"}";
         String param = "{\"imei\":\"845128451284511\"}";
 
-        Map<String, Object> process = serviceChoreographyFacade.process(jsonStr, param);
+        Map<String, Object> process = serviceOrchestrationFacade.process(jsonStr, param);
         System.out.println(JSON.toJSONString(process));
         return process;
     }
@@ -61,7 +61,7 @@ public class ServiceOrchestrationDemoApplication {
         String jsonStr = FileUtils.readFileToString(file);
         String param = "{\"orgIds\":[\"440101-S0000111\"]}";
 
-        Map<String, Object> process = serviceChoreographyFacade.process(jsonStr, param);
+        Map<String, Object> process = serviceOrchestrationFacade.process(jsonStr, param);
         System.out.println(JSON.toJSONString(process));
         return process;
     }
@@ -73,7 +73,7 @@ public class ServiceOrchestrationDemoApplication {
         String jsonStr = FileUtils.readFileToString(file);
         String param = "{\"media_ids\":[\"440101-S000011\"],\"org_id\":\"440101-S000011\"}";
 
-        Map<String, Object> process = serviceChoreographyFacade.process(jsonStr, param);
+        Map<String, Object> process = serviceOrchestrationFacade.process(jsonStr, param);
         System.out.println(JSON.toJSONString(process));
         return process;
     }
@@ -85,7 +85,7 @@ public class ServiceOrchestrationDemoApplication {
         String jsonStr = FileUtils.readFileToString(file);
         String param = "{\"user_id\":\"769fe83321c34145bccc280be4aa59cd\",\"org_id\":\"440101-S000011\"}";
 
-        Map<String, Object> process = serviceChoreographyFacade.process(jsonStr, param);
+        Map<String, Object> process = serviceOrchestrationFacade.process(jsonStr, param);
         System.out.println(JSON.toJSONString(process));
         return process;
     }
@@ -98,7 +98,7 @@ public class ServiceOrchestrationDemoApplication {
 //        String param = "{\"deptId\":[\"228891204B02461B875CEE137E0EFF8B\"],\"workContext\":{\"orgId\":\"440101-S000011\"}}";
         String param = "{\"dept_id\":\"228891204B02461B875CEE137E0EFF8B\",\"org_id\":\"440101-S000011\"}";
 
-        Map<String, Object> process = serviceChoreographyFacade.process(jsonStr, param);
+        Map<String, Object> process = serviceOrchestrationFacade.process(jsonStr, param);
         System.out.println(JSON.toJSONString(process));
         return process;
     }
@@ -113,7 +113,7 @@ public class ServiceOrchestrationDemoApplication {
         String path = Objects.requireNonNull(ServiceOrchestrationDemoApplication.class.getClassLoader().getResource(map.get("file").toString())).getPath();
         File file = new File(path);
         String jsonStr = FileUtils.readFileToString(file);
-        Map<String, Object> process = serviceChoreographyFacade.process(jsonStr, JSON.toJSONString(map));
+        Map<String, Object> process = serviceOrchestrationFacade.process(jsonStr, JSON.toJSONString(map));
         System.out.println(JSON.toJSONString(process));
         return process;
     }

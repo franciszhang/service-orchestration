@@ -25,11 +25,11 @@ public class ParserProcessor {
     public static String expressionSuffix = "}";
 
     static {
-        String prefix = System.getProperty("service.choreography.expression.prefix");
+        String prefix = System.getProperty("service.orchestration.expression.prefix");
         if (StringUtils.hasText(prefix)) {
             expressionPrefix = prefix;
         }
-        String suffix = System.getProperty("service.choreography.expression.suffix");
+        String suffix = System.getProperty("service.orchestration.expression.suffix");
         if (StringUtils.hasText(suffix)) {
             expressionSuffix = suffix;
         }
