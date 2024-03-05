@@ -5,8 +5,8 @@
 - 采用jsonPath方式取值
 
 -------
-在yunzhi-service-choreography-demo工程里附加了4个编排，dsl分别是a.json,b.json,c.json,d.json。</br>
-如何访问？ 在YunzhiServiceChoreographyDemoApplication类中，直接启动程序，然后访问以下4个地址
+在service-choreography-demo工程里附加了4个编排，dsl分别是a.json,b.json,c.json,d.json。</br>
+如何访问？ 在ServiceChoreographyDemoApplication类中，直接启动程序，然后访问以下4个地址
 
 - http://localhost:8080/test
 - http://localhost:8080/test1
