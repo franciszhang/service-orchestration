@@ -1,7 +1,7 @@
 {
   "tasks": [
     {
-      "url": "com.yunzhi.usercenter.api.user.facade.ReadDeptStationUserFacade:user-center:1.0.0",
+      "url": "com.xxx.usercenter.api.user.facade.ReadDeptStationUserFacade:user-center:1.0.0",
       "alias": "d1",
       "taskType": "hsf",
       "method": "findByOrgIdAndDeptIdIn",
@@ -11,7 +11,7 @@
         "deptIds": "[\"${#dept_id}\"]"
       },
       "inputsExtra": {
-        "workContext": "com.yunzhi.usercenter.api.common.pojo.dto.WorkContext",
+        "workContext": "com.xxx.usercenter.api.common.pojo.dto.WorkContext",
         "deptIds": "java.util.Collection"
       }
     }

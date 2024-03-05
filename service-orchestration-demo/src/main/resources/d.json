@@ -1,7 +1,7 @@
 {
   "tasks": [
     {
-      "url": "com.come2future.user.standard.api.org.service.OrgFacade:org:1.0.0.test",
+      "url": "com.xxx.user.standard.api.org.service.OrgFacade:org:1.0.0.test",
       "alias": "d1",
       "taskType": "hsf",
       "method": "getByOrgIds",
@@ -15,7 +15,7 @@
       }
     },
     {
-      "url": "com.c2f.rbac.client.AppBaseInfoApi:rbac:1.0.0.test",
+      "url": "com.xxx.rbac.client.AppBaseInfoApi:rbac:1.0.0.test",
       "alias": "d2",
       "taskType": "hsf",
       "method": "getAppBaseInfoList",
@@ -29,7 +29,7 @@
       }
     },
     {
-      "url": "com.c2f.rbac.client.MenuRoleUserApi:rbac:1.0.0.test",
+      "url": "com.xxx.rbac.client.MenuRoleUserApi:rbac:1.0.0.test",
       "alias": "d3",
       "taskType": "hsf",
       "method": "getMenuRoleUser",
@@ -41,7 +41,7 @@
         }
       },
       "inputsExtra": {
-        "getMenuRoleUserQO": "com.c2f.rbac.client.qo.GetMenuRoleUserQO"
+        "getMenuRoleUserQO": "com.xxx.rbac.client.qo.GetMenuRoleUserQO"
       }
     }
   ],

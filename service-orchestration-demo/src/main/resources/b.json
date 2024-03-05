@@ -2,7 +2,7 @@
   "tasks":
   [
     {
-      "url": "com.nbugs.xiaoyuanhao.weixin.work.base.core.hsf.PubaccountRemoteService:base:1.0.0",
+      "url": "com.xxx.weixin.work.base.core.hsf.PubaccountRemoteService:base:1.0.0",
       "alias": "d1",
       "taskType": "hsf",
       "method": "getCorpIdByOrgId",
@@ -17,7 +17,7 @@
       }
     },
     {
-      "url": "com.nbugs.xiaoyuanhao.weixin.work.base.core.hsf.PubaccountRemoteService:base:1.0.0",
+      "url": "com.xxx.weixin.work.base.core.hsf.PubaccountRemoteService:base:1.0.0",
       "alias": "d2",
       "taskType": "hsf",
       "method": "getSignature",
@@ -28,7 +28,7 @@
       },
       "inputsExtra":
       {
-        "signatureRequest": "com.nbugs.xiaoyuanhao.weixin.work.base.core.model.resquest.SignatureRequest"
+        "signatureRequest": "com.xxx.weixin.work.base.core.model.resquest.SignatureRequest"
       }
     }
   ],

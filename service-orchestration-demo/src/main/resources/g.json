@@ -1,7 +1,7 @@
 {
   "tasks": [
     {
-      "url": "com.yunzhi.usercenter.mapping.api.UserMappingApi::1.0",
+      "url": "com.xxx.usercenter.mapping.api.UserMappingApi::1.0",
       "alias": "d1",
       "taskType": "dubbo",
       "method": "findByOrgIdAndUserIdInOfLimit",
@@ -17,7 +17,7 @@
         }
       },
       "inputsExtra": {
-        "request": "com.yunzhi.usercenter.mapping.api.condition.UserIdToOutUserIdCondition"
+        "request": "com.xxx.usercenter.mapping.api.condition.UserIdToOutUserIdCondition"
       }
     }
   ],

@@ -2,7 +2,7 @@
   "tasks":
   [
     {
-      "url": "http://test.bsjiot.com:9030/core/api/v1/open/zf211/getIdCardByImei",
+      "url": "http://test.xxx.com:9030/core/api/v1/open/zf211/getIdCardByImei",
       "alias": "d1",
       "taskType": "http",
       "method": "post",
@@ -17,8 +17,8 @@
       }
     }
   ],
-  "name": "(博实结)根据imei获取idNo",
-  "description": "(博实结)根据imei获取idNo",
+  "name": "获取idNo",
+  "description": "获取idNo",
   "outputs":
   {
     "msg": "$d1.msg",
